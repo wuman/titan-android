@@ -14,7 +14,9 @@ import org.apache.cassandra.config.CFMetaData.Caching;
 import org.apache.cassandra.db.ColumnFamilyType;
 import org.apache.cassandra.db.marshal.BytesType;
 import org.apache.cassandra.service.MigrationManager;
+import org.apache.cassandra.service.StorageService;
 import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +50,10 @@ public class CassandraEmbeddedStorageManager implements StorageManager {
 
     private final String cassandraConfigDir;
     
+    private final int minClusterSize;
+    
+    private final long minClusterSizeWaitMS;
+    
     private static final Logger log =
     		LoggerFactory.getLogger(CassandraEmbeddedStorageManager.class);
     
@@ -76,6 +82,14 @@ public class CassandraEmbeddedStorageManager implements StorageManager {
 	 */
     public static final String CASSANDRA_CONFIG_DIR_DEFAULT = "";
     public static final String CASSANDRA_CONFIG_DIR_KEY = "cassandra-config-dir";
+
+    public static final int CASSANDRA_MIN_CLUSTER_SIZE_DEFAULT = -1;
+    public static final String CASSANDRA_MIN_CLUSTER_SIZE_KEY = "min-cluster-size";
+    
+    public static final long CASSANDRA_MIN_CLUSTER_SIZE_WAIT_MS_DEFAULT = 1000 * 60 * 10;
+    public static final String CASSANDRA_MIN_CLUSTER_SIZE_WAIT_MS_KEY = "min-cluster-size-wait-ms";
+    
+    private static final String ID_KEYSPACE = "titan_ids";
     
 	public CassandraEmbeddedStorageManager(Configuration config) throws StorageException {
 		
@@ -83,7 +97,16 @@ public class CassandraEmbeddedStorageManager implements StorageManager {
 				config.getString(
 						CASSANDRA_CONFIG_DIR_KEY,
 						CASSANDRA_CONFIG_DIR_DEFAULT);
-
+		
+		this.minClusterSize =
+				config.getInt(
+						CASSANDRA_MIN_CLUSTER_SIZE_KEY,
+						CASSANDRA_MIN_CLUSTER_SIZE_DEFAULT);
+		
+		this.minClusterSizeWaitMS =
+				config.getLong(
+						CASSANDRA_MIN_CLUSTER_SIZE_WAIT_MS_KEY,
+						CASSANDRA_MIN_CLUSTER_SIZE_WAIT_MS_DEFAULT);
         
         if (null != cassandraConfigDir && !cassandraConfigDir.isEmpty()) {
         	CassandraDaemonWrapper.start(cassandraConfigDir);
@@ -135,7 +158,11 @@ public class CassandraEmbeddedStorageManager implements StorageManager {
 		log.debug("Set write consistency level to {}", this.writeConsistencyLevel);
 		
         idmanager = new OrderedKeyColumnValueIDManager(
-        		openDatabase("titan_ids", keyspace, null, null), rid, config);
+        		openDatabase(ID_KEYSPACE, keyspace, null, null), rid, config);
+		
+		if (0 <= minClusterSize) {
+			waitForRingSize(minClusterSize, minClusterSizeWaitMS);
+		}
 
         features = CassandraFeatures.of(config);
 	}
@@ -185,6 +212,57 @@ public class CassandraEmbeddedStorageManager implements StorageManager {
 			MigrationManager.announceKeyspaceDrop(keyspace);
 		} catch (ConfigurationException e) {
 			throw new PermanentStorageException(e);
+		}
+	}
+	
+	private static void waitForRingSize(int minSize, long timeoutMS) throws TemporaryStorageException, PermanentStorageException {
+		final long sleepMS = 500L;
+		final String ksname = "titan";
+		
+		long start = System.currentTimeMillis();
+		while (true) {
+			int size;
+			
+			try {
+				size = StorageService.instance.describeRing(ksname).size();
+				log.debug("Cassandra ring size for keyspace {}: {}", ksname, size);
+			} catch (InvalidRequestException e) {
+				/*
+				 * When the first node in a brand-new cluster starts, attempts
+				 * to retrieve the ring will throw InvalidRequestException with
+				 * a message string in the form
+				 * 
+				 * "There is no ring for the keyspace: <KSNAME>"
+				 * 
+				 * We'll interpret these as temporary since they may go away
+				 * when other nodes join the cluster.
+				 */
+				
+				// Log but do not rethrow
+				log.debug("Exception while describing Cassandra ring", e);
+				size = -1;
+			}
+			
+			long now = System.currentTimeMillis();
+			
+			if (size >= minSize) {
+				log.debug(
+						"Cassanda cluster size minimum reached: actual size {} (minimum needed size {}); waited {} ms for convergence",
+						new Object[] { size, minSize, now - start });
+				return;
+			}
+			
+			if (now - start >= timeoutMS) {
+				throw new TemporaryStorageException(
+						"Cassandra cluster too small: expected " + minSize + " or more nodes, but found only " + size);
+			}
+			
+			try {
+				log.debug("Sleeping {} ms and hoping the Cassandra cluster grows...", sleepMS);
+				Thread.sleep(sleepMS);
+			} catch (InterruptedException e) {
+				throw new TemporaryStorageException(e);
+			}
 		}
 	}
 

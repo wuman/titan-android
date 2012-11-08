@@ -1,103 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Titan : A Highly Scalable, Distributed Graph Database" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Titan-Android by wuman</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Titan</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
-  
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/thinkaurelius/titan/wiki">View Documentation</a>
-	      <!--<img src="images/titan-banner.gif" />-->
-          <h1 id="project_title">TITAN</h1>
-          <h2 id="project_tagline">A Highly Scalable, Distributed Graph Database</h2>
-          <section id="downloads">                                                                                                                  
-              <a class="zip_download_link" href="https://github.com/downloads/thinkaurelius/titan/titan-0.1.0.zip">Download this project as a .zip file</a>              
-          </section>
-        </header>
-    </div>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Titan-Android</h1>
+        <p class="header">Android Port of Titan: A Highly Scalable, Distributed Graph Database</p>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/wuman/titan-android/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/wuman/titan-android/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/wuman/titan-android">View On GitHub</a></li>
+        </ul>
 
-<img id="titanlogo" src="images/titan-logo2.png" />
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/wuman">wuman</a></p>
 
-<p>Titan is a highly scalable <a href="http://en.wikipedia.org/wiki/Graph_database">graph database</a> optimized for storing and querying massive-scale graphs containing billions of vertices and edges distributed across a multi-machine cluster. 
-Titan is a transactional database that can support <a href="http://thinkaurelius.com/2012/08/06/titan-provides-real-time-big-graph-data/">thousands of concurrent users</a>.</p>
 
-<p>In addition, Titan provides the following features:</p>
+      </header>
+      <section>
+        <p>!<a href="https://github.com/thinkaurelius/titan/raw/master/doc/images/titan-logo.png">https://github.com/thinkaurelius/titan/raw/master/doc/images/titan-logo.png</a>!</p>
+
+<p>Titan is a highly scalable "graph database":<a href="http://en.wikipedia.org/wiki/Graph_database">http://en.wikipedia.org/wiki/Graph_database</a> optimized for storing and querying large graphs with billions of vertices and edges distributed across a multi-machine cluster. Titan is a transactional database that can support "thousands of concurrent users":<a href="http://thinkaurelius.com/2012/08/06/titan-provides-real-time-big-graph-data/">http://thinkaurelius.com/2012/08/06/titan-provides-real-time-big-graph-data/</a>.</p>
+
+<p>h2. Features</p>
 
 <ul>
 <li>Elastic and linear scalability for a growing data and user base.</li>
-
 <li>Data distribution and replication for performance and fault tolerance.</li>
-
-<li>Support for <a href="http://en.wikipedia.org/wiki/ACID">ACID</a> and <a href="http://en.wikipedia.org/wiki/Eventual_consistency">eventual consistency</a>.</li>
-
-<li>Support for various <a href="https://github.com/thinkaurelius/titan/wiki/Storage-Backend-Overview">storage backends</a>:
-<ul>
-<li><a href="http://cassandra.apache.org/">Apache Cassandra</a></li>
-<li><a href="http://hbase.apache.org/">Apache HBase</a></li>
-<li><a href="http://www.oracle.com/technetwork/database/berkeleydb/overview/index-093405.html">Oracle BerkeleyDB</a></li>
-</ul>
+<li>Support for "ACID":<a href="http://en.wikipedia.org/wiki/ACID">http://en.wikipedia.org/wiki/ACID</a> and "eventual consistency":<a href="http://en.wikipedia.org/wiki/Eventual_consistency">http://en.wikipedia.org/wiki/Eventual_consistency</a>.</li>
+<li>Support for various "storage backend":<a href="https://github.com/thinkaurelius/titan/wiki/Storage-Backend-Overview:">https://github.com/thinkaurelius/titan/wiki/Storage-Backend-Overview:</a>
+** "Apache Cassandra":<a href="http://cassandra.apache.org/">http://cassandra.apache.org/</a>
+** "Apache HBase":<a href="http://hbase.apache.org/">http://hbase.apache.org/</a>
+** "Oracle BerkeleyDB":<a href="http://www.oracle.com/technetwork/database/berkeleydb/overview/index-093405.html">http://www.oracle.com/technetwork/database/berkeleydb/overview/index-093405.html</a>
 </li>
+<li>Native integration with the "TinkerPop":<a href="http://www.tinkerpop.com">http://www.tinkerpop.com</a> graph stack:
+** "Gremlin":<a href="http://gremlin.tinkerpop.com">http://gremlin.tinkerpop.com</a> graph query language
+** "Frames":<a href="http://frames.tinkerpop.com">http://frames.tinkerpop.com</a> object-to-graph mapper
+** "Rexster":<a href="http://rexster.tinkerpop.com">http://rexster.tinkerpop.com</a> REST graph server
+** "Blueprints":<a href="http://blueprints.tinkerpop.com">http://blueprints.tinkerpop.com</a> standard graph API</li>
+<li>Open source with the liberal "Apache 2 license":<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>.</li>
+</ul><p>h2. Getting Started</p>
 
-
-<li>Native integration with the <a href="http://www.tinkerpop.com">TinkerPop</a> graph stack:
-<ul>
-<li><a href="http://gremlin.tinkerpop.com">Gremlin</a> graph query language</li>
-<li><a href="http://frames.tinkerpop.com">Frames</a> object-to-graph mapper</li>
-<li><a href="http://rexster.tinkerpop.com">Rexster</a> REST graph server</li>
-<li><a href="http://blueprints.tinkerpop.com">Blueprints</a> standard graph API</li>
-</ul>
-</li>
-
-<li>Open source with the liberal <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2</a> license.</li>
-</ul>
-
-<p><a href="https://github.com/thinkaurelius/titan/downloads">Download</a> Titan or <a href="https://github.com/thinkaurelius/titan">clone</a> from GitHub.
-Read the <a href="https://github.com/thinkaurelius/titan/wiki">Titan documentation</a> and join the <a href="https://groups.google.com/forum/#!forum/aureliusgraphs">mailing list</a>.<br />
-
-<p>For <a href="http://thinkaurelius.com/subscription/">commercial Titan support</a>, please <a href="mailto:info@thinkaurelius.com">contact</a> the graph experts at <a href="http://thinkaurelius.com">Aurelius</a>.</p>
-
-
-<h2> Quick Start </h2>
-
-<div class="highlight"><pre><span class="nt">&lt;dependency&gt;</span>
-   <span class="nt">&lt;groupId&gt;</span>com.thinkaurelius.titan<span class="nt">&lt;/groupId&gt;</span>
-   <span class="nt">&lt;artifactId&gt;</span>titan<span class="nt">&lt;/artifactId&gt;</span>
-   <span class="nt">&lt;version&gt;</span>0.1.0<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-</pre></div>
-
-<br>
-<div class="highlight"><pre><span class="c1">// who is hercules' grandfather?</span>
-<span class="n">g</span><span class="o">.</span><span class="na">V</span><span class="o">(</span><span class="s1">'name'</span><span class="o">,</span><span class="s1">'hercules'</span><span class="o">).</span><span class="na">out</span><span class="o">(</span><span class="s1">'father'</span><span class="o">).</span><span class="na">out</span><span class="o">(</span><span class="s1">'father'</span><span class="o">).</span><span class="na">name</span>
-</pre></div>
-
-<p>Continue with the <a href="https://github.com/thinkaurelius/titan/wiki/Getting-Started">Getting Started with Titan</a> guide for a step-by-step introduction.</p>
-
-
-</section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Titan is maintained by <a href="http://thinkaurelius.com">Aurelius</a>
-</p>
+<p>Read the comprehensive "Titan documentation":<a href="https://github.com/thinkaurelius/titan/wiki">https://github.com/thinkaurelius/titan/wiki</a> and join the "mailing list":<a href="https://groups.google.com/forum/#!forum/aureliusgraphs">https://groups.google.com/forum/#!forum/aureliusgraphs</a>.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-4156099-13");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
 
   </body>
 </html>

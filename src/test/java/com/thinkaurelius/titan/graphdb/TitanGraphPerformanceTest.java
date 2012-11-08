@@ -1,6 +1,16 @@
 package com.thinkaurelius.titan.graphdb;
 
 
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.text.NumberFormat;
+import java.util.LinkedHashMap;
+
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.junit.Test;
+
 import com.thinkaurelius.titan.core.TitanEdge;
 import com.thinkaurelius.titan.core.TitanKey;
 import com.thinkaurelius.titan.core.TitanLabel;
@@ -11,22 +21,9 @@ import com.thinkaurelius.titan.graphdb.vertices.InternalTitanVertex;
 import com.thinkaurelius.titan.testutil.MemoryAssess;
 import com.thinkaurelius.titan.testutil.PerformanceTest;
 import com.thinkaurelius.titan.testutil.RandomGenerator;
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.text.NumberFormat;
-import java.util.LinkedHashMap;
-
-import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public abstract class TitanGraphPerformanceTest extends TitanGraphTestCommon {
 
-	private static final Logger log = LoggerFactory.getLogger(TitanGraphPerformanceTest.class);
-	
 	private static final int minBatchSizeAsPowerOf2 = 4;
 	private static final int maxBatchSizeAsPowerOf2 = 14;
 	private final int trials;
@@ -54,12 +51,12 @@ public abstract class TitanGraphPerformanceTest extends TitanGraphTestCommon {
             clopen();
             if (i==1) {
                 memoryBaseline = MemoryAssess.getMemoryUse();
-                log.debug("Memory before: {}",memoryBaseline/1024);
+                System.out.println("Memory before: " + (memoryBaseline/1024));
             }
         }
         close();
         long memoryAfter = MemoryAssess.getMemoryUse();
-        log.debug("Memory after: {}",memoryAfter/1024);
+        System.out.println("Memory after: " + (memoryAfter/1024));
         //assertTrue(memoryAfter<100*1024*1024);
     }
 
@@ -119,8 +116,8 @@ public abstract class TitanGraphPerformanceTest extends TitanGraphTestCommon {
 		else
 			batchStatus = "batching=false";
 		
-		log.info("Beginning {} trials ({} pretrials) of \"{}\"; {}",
-				new Object[] { trials, jitPretrials, task, batchStatus });
+        System.out.println("Beginning " + trials + " trials (" + jitPretrials
+                + " pretrials) of \"" + task + "\"; " + batchStatus);
 		
 		for (int trial = 0; trial < trials + jitPretrials; trial++) {
 
@@ -150,8 +147,8 @@ public abstract class TitanGraphPerformanceTest extends TitanGraphTestCommon {
 		}
 		
 		logMetrics();
-		log.info("Completed {} trials ({} pretrials) of \"{}\"; {}",
-				new Object[] {trials, jitPretrials, task, batchStatus});
+        System.out.println("Completed " + trials + " trials (" + jitPretrials
+                + " pretrials) of \"" + task + "\"; " + batchStatus + "");
 	}
 	
 	private Metric getMetric(String description, String units) {
@@ -166,7 +163,7 @@ public abstract class TitanGraphPerformanceTest extends TitanGraphTestCommon {
 	
 	private void logMetrics() {
 		for (Metric m : metrics.values())
-			log.info(m.toString());
+			System.out.println(m.toString());
 	}
 	
 	private abstract class EdgeInsertion implements Runnable {
@@ -249,7 +246,7 @@ public abstract class TitanGraphPerformanceTest extends TitanGraphTestCommon {
 				nodes[i].addProperty(name, names[i]);
                 nodes[i].addProperty(id,i);
 			}
-            log.info("Nodes loaded.");
+            System.out.println("Nodes loaded.");
 			int offsets[] = {-99, -71, -20, -17, -13, 2, 7, 15, 33, 89};
 			assert offsets.length==noEdgesPerNode;
 			
@@ -295,7 +292,7 @@ public abstract class TitanGraphPerformanceTest extends TitanGraphTestCommon {
 				nodes[i].addProperty(name, names[i]);
                 nodes[i].addProperty(id,i);
 			}
-            log.info("Nodes loaded.");
+            System.out.println("Nodes loaded.");
 			int offsets[] = { -99, -71, -20, -17, -13, 2, 7, 15, 33, 89 };
 			assert offsets.length == noEdgesPerNode;
 

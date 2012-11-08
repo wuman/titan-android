@@ -1,26 +1,29 @@
 package com.thinkaurelius.titan.diskstorage;
 
 
-import com.thinkaurelius.titan.StorageSetup;
-import com.thinkaurelius.titan.diskstorage.util.KeyValueStorageManagerAdapter;
-import com.thinkaurelius.titan.diskstorage.util.RecordIterator;
-import com.thinkaurelius.titan.diskstorage.util.ScanKeyValueStore;
-import com.thinkaurelius.titan.testutil.RandomGenerator;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
-import java.util.*;
-
-import static org.junit.Assert.*;
+import com.thinkaurelius.titan.diskstorage.util.RecordIterator;
+import com.thinkaurelius.titan.testutil.RandomGenerator;
 
 public abstract class KeyColumnValueStoreTest {
-
-	private Logger log = LoggerFactory.getLogger(KeyValueStoreTest.class);
 
 	int numKeys = 500;
 	int numColumns = 50;
@@ -162,10 +165,10 @@ public abstract class KeyColumnValueStoreTest {
 	@Test
 	public void storeAndRetrieve() throws StorageException {
 		String[][] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		//print(values);
-		log.debug("Checking values...");
+		System.out.println("Checking values...");
 		checkValueExistence(values);
 		checkValues(values);
 	}
@@ -173,10 +176,10 @@ public abstract class KeyColumnValueStoreTest {
 	@Test
 	public void storeAndRetrieveWithClosing() throws StorageException {
 		String[][] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		clopen();
-		log.debug("Checking values...");
+		System.out.println("Checking values...");
 		checkValueExistence(values);
 		checkValues(values);
 	}
@@ -184,11 +187,11 @@ public abstract class KeyColumnValueStoreTest {
 	@Test
 	public void deleteColumnsTest1() throws StorageException {
 		String[][] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		clopen();
 		Set<KeyColumn> deleted = deleteValues(7);
-		log.debug("Checking values...");
+		System.out.println("Checking values...");
 		checkValueExistence(values,deleted);
 		checkValues(values,deleted);
 	}
@@ -196,11 +199,11 @@ public abstract class KeyColumnValueStoreTest {
 	@Test
 	public void deleteColumnsTest2() throws StorageException {
 		String[][] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		Set<KeyColumn> deleted = deleteValues(7);
 		clopen();
-		log.debug("Checking values...");
+		System.out.println("Checking values...");
 		checkValueExistence(values,deleted);
 		checkValues(values,deleted);
 	}
@@ -208,7 +211,7 @@ public abstract class KeyColumnValueStoreTest {
 	@Test
 	public void deleteKeys() throws StorageException {
 		String[][] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		Set<Integer> deleted = deleteKeys(11);
 		clopen();
@@ -260,7 +263,7 @@ public abstract class KeyColumnValueStoreTest {
 	@Test
 	public void intervalTest1() throws StorageException {
 		String[][] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		Set<KeyColumn> deleted = deleteValues(7);
 		clopen();

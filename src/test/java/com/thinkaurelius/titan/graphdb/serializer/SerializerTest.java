@@ -1,30 +1,30 @@
 package com.thinkaurelius.titan.graphdb.serializer;
 
 
-import com.thinkaurelius.titan.graphdb.types.*;
-import com.thinkaurelius.titan.graphdb.types.TypeCategory;
-import com.thinkaurelius.titan.graphdb.database.serialize.DataOutput;
-import com.thinkaurelius.titan.graphdb.database.serialize.Serializer;
-import com.thinkaurelius.titan.graphdb.database.serialize.kryo.KryoSerializer;
-import com.thinkaurelius.titan.graphdb.types.group.StandardTypeGroup;
-import com.thinkaurelius.titan.graphdb.types.system.SystemTypeManager;
-import com.thinkaurelius.titan.testutil.PerformanceTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.nio.ByteBuffer;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.nio.ByteBuffer;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.thinkaurelius.titan.graphdb.database.serialize.DataOutput;
+import com.thinkaurelius.titan.graphdb.database.serialize.Serializer;
+import com.thinkaurelius.titan.graphdb.database.serialize.kryo.KryoSerializer;
+import com.thinkaurelius.titan.graphdb.types.Directionality;
+import com.thinkaurelius.titan.graphdb.types.FunctionalType;
+import com.thinkaurelius.titan.graphdb.types.StandardEdgeLabel;
+import com.thinkaurelius.titan.graphdb.types.StandardPropertyKey;
+import com.thinkaurelius.titan.graphdb.types.TypeCategory;
+import com.thinkaurelius.titan.graphdb.types.TypeVisibility;
+import com.thinkaurelius.titan.graphdb.types.group.StandardTypeGroup;
+import com.thinkaurelius.titan.graphdb.types.system.SystemTypeManager;
+import com.thinkaurelius.titan.testutil.PerformanceTest;
+
 public class SerializerTest {
 	
-	private static final Logger log =
-		LoggerFactory.getLogger(SerializerTest.class);
-
 	Serializer serialize;
 	boolean printStats;
 	
@@ -58,7 +58,7 @@ public class SerializerTest {
 		out.writeObject(c);
 		out.writeClassAndObject(n);
 		ByteBuffer b = out.getByteBuffer();
-		if (printStats) log.debug(bufferStats(b));
+		if (printStats) System.out.println(bufferStats(b));
 		String str2=serialize.readObjectNotNull(b, String.class);
 		assertEquals(str,str2);
 		assertEquals(b.getInt(),i);
@@ -78,7 +78,7 @@ public class SerializerTest {
 			out.writeObjectNotNull(str);
 		}
 		ByteBuffer b = out.getByteBuffer();
-		if (printStats) log.debug(bufferStats(b));
+		if (printStats) System.out.println(bufferStats(b));
 		for (int i=0;i<no;i++) {
 			String str = base + (i+1);
 			String read = serialize.readObjectNotNull(b, String.class);
@@ -95,7 +95,7 @@ public class SerializerTest {
 		DataOutput out = serialize.getDataOutput(128, true);
 		out.writeObjectNotNull(str);
 		ByteBuffer b = out.getByteBuffer();
-		if (printStats) log.debug(bufferStats(b));
+		if (printStats) System.out.println(bufferStats(b));
 		assertEquals(str,serialize.readObjectNotNull(b, String.class));
 		assertFalse(b.hasRemaining());
 	}
@@ -105,7 +105,7 @@ public class SerializerTest {
 		DataOutput out = serialize.getDataOutput(128, true);
 		out.writeObjectNotNull(TestEnum.Two);
 		ByteBuffer b = out.getByteBuffer();
-		if (printStats) log.debug(bufferStats(b));
+		if (printStats) System.out.println(bufferStats(b));
 		assertEquals(TestEnum.Two,serialize.readObjectNotNull(b, TestEnum.class));
 		assertFalse(b.hasRemaining());
 
@@ -123,7 +123,7 @@ public class SerializerTest {
 		out.writeObjectNotNull(relType);
 		out.writeObjectNotNull(propType);
 		ByteBuffer b = out.getByteBuffer();
-		if (printStats) log.debug(bufferStats(b));
+		if (printStats) System.out.println(bufferStats(b));
 		assertEquals("testName",serialize.readObjectNotNull(b, StandardEdgeLabel.class).name);
 		assertEquals(String.class,serialize.readObjectNotNull(b, StandardPropertyKey.class).getDataType());
 		assertFalse(b.hasRemaining());
@@ -138,7 +138,7 @@ public class SerializerTest {
 			longWriteTest();
 		}
 		p.end();
-		log.debug("LONG: Avg micro time: " + (p.getMicroTime()/runs));		
+		System.out.println("LONG: Avg micro time: " + (p.getMicroTime()/runs));		
 	}
 	
 	@Test
@@ -150,7 +150,7 @@ public class SerializerTest {
 			objectWriteRead();
 		}
 		p.end();
-		log.debug("SHORT: Avg micro time: " + (p.getMicroTime()/runs));		
+		System.out.println("SHORT: Avg micro time: " + (p.getMicroTime()/runs));		
 	}
 	
 	public static String bufferStats(ByteBuffer b) {

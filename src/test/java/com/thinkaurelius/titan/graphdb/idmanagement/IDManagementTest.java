@@ -1,26 +1,23 @@
 package com.thinkaurelius.titan.graphdb.idmanagement;
 
 
-import com.thinkaurelius.titan.graphdb.database.idhandling.IDHandler;
-import com.thinkaurelius.titan.graphdb.database.serialize.DataOutput;
-import com.thinkaurelius.titan.graphdb.database.serialize.kryo.KryoSerializer;
-import com.thinkaurelius.titan.testutil.RandomGenerator;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.ByteBuffer;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.thinkaurelius.titan.graphdb.database.idhandling.IDHandler;
+import com.thinkaurelius.titan.graphdb.database.serialize.DataOutput;
+import com.thinkaurelius.titan.graphdb.database.serialize.kryo.KryoSerializer;
+import com.thinkaurelius.titan.testutil.RandomGenerator;
 
 public class IDManagementTest {
 
-	private static final Logger log = LoggerFactory.getLogger(IDManagementTest.class);
-	
 	@Before
 	public void setUp() throws Exception {
 	}
@@ -158,7 +155,7 @@ public class IDManagementTest {
 		while (s.length()<64) {
 			s = "0"+s;
 		}
-		log.debug(s);
+		System.out.println(s);
 	}
 
 }

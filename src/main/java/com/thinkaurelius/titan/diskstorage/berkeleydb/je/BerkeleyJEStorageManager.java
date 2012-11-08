@@ -202,6 +202,8 @@ public class BerkeleyJEStorageManager implements KeyValueStorageManager {
 			if (!stores.isEmpty()) throw new IllegalStateException("Cannot shutdown manager since some databases are still open");
 			try {
 				environment.close();
+			} catch (NoClassDefFoundError e) {
+			    log.warn("Android does not support javax.transaction.*");
 			} catch (DatabaseException e) {
 				throw new PermanentStorageException("Could not close BerkeleyJE database",e);
 			}

@@ -1,30 +1,39 @@
 package com.thinkaurelius.titan.graphdb;
 
 
+import static com.tinkerpop.blueprints.Direction.IN;
+import static com.tinkerpop.blueprints.Direction.OUT;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.apache.commons.configuration.Configuration;
+import org.junit.Test;
+
 import com.google.common.collect.Iterables;
-import com.thinkaurelius.titan.core.*;
+import com.thinkaurelius.titan.core.TitanEdge;
+import com.thinkaurelius.titan.core.TitanKey;
+import com.thinkaurelius.titan.core.TitanLabel;
+import com.thinkaurelius.titan.core.TitanProperty;
+import com.thinkaurelius.titan.core.TitanQuery;
+import com.thinkaurelius.titan.core.TitanTransaction;
+import com.thinkaurelius.titan.core.TitanVertex;
+import com.thinkaurelius.titan.core.TypeGroup;
+import com.thinkaurelius.titan.core.VertexList;
 import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
 import com.thinkaurelius.titan.graphdb.serializer.SpecialInt;
 import com.thinkaurelius.titan.graphdb.serializer.SpecialIntSerializer;
 import com.thinkaurelius.titan.graphdb.types.InternalTitanType;
-import com.thinkaurelius.titan.testutil.MemoryAssess;
 import com.thinkaurelius.titan.testutil.RandomGenerator;
 import com.tinkerpop.blueprints.Direction;
-import static com.tinkerpop.blueprints.Direction.*;
-import static org.junit.Assert.*;
-
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Query;
 import com.tinkerpop.blueprints.Vertex;
-import org.apache.commons.configuration.Configuration;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class TitanGraphTest extends TitanGraphTestCommon {
 
-	private Logger log = LoggerFactory.getLogger(TitanGraphTest.class);
-	
 	public TitanGraphTest(Configuration config) {
 		super(config);
 	}
@@ -473,20 +482,20 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
         weight = tx.getPropertyKey(etNames[2]);
         id = tx.getPropertyKey("uid");
         knows = tx.getEdgeLabel(etNames[3]);
-		log.debug("Loaded edge types");
+		System.out.println("Loaded edge types");
 		n2 = tx.getVertex(name, "Node2");
         assertNotNull(n2.toString());
 		assertEquals("Node2",n2.getProperty(name, String.class));
 		e = Iterables.getOnlyElement(n2.getTitanEdges(Direction.BOTH, connect));
         assertNotNull(e.toString());
 		n1 = e.getVertex(OUT);
-		log.debug("Retrieved node!");
+		System.out.println("Retrieved node!");
 		assertEquals(n1,e.getVertex(OUT));
 		assertEquals(n2,e.getVertex(IN));
 		
-		log.debug("First:");
+		System.out.println("First:");
 		assertEquals(e,Iterables.getOnlyElement(n2.getEdges(Direction.IN)));
-		log.debug("Second:");
+		System.out.println("Second:");
 		assertEquals(e,Iterables.getOnlyElement(n1.getEdges(Direction.OUT)));
 		
 		assertEquals(1,Iterables.size(n2.getTitanEdges(Direction.BOTH,tx.getEdgeLabel("knows"))));
@@ -494,14 +503,14 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
 		assertEquals(1,Iterables.size(n1.getTitanEdges(Direction.BOTH,tx.getEdgeLabel("knows"))));
 		assertEquals(2,Iterables.size(n1.getEdges()));
 
-		log.debug("Third:");
+		System.out.println("Third:");
 		assertEquals(e,Iterables.getOnlyElement(n2.getEdges(Direction.IN, "connect")));
-		log.debug("Four:");
+		System.out.println("Four:");
 		assertEquals(e,Iterables.getOnlyElement(n1.getTitanEdges(Direction.OUT, connect)));
 		
-		log.debug("Fith:");
+		System.out.println("Fith:");
 		assertEquals(e,Iterables.getOnlyElement(n2.getEdges(Direction.BOTH,"connect")));
-		log.debug("Sixth:");
+		System.out.println("Sixth:");
 		assertEquals(e,Iterables.getOnlyElement(n1.getTitanEdges(Direction.BOTH,connect)));
 		
 		e=Iterables.getOnlyElement(n2.getTitanEdges(Direction.OUT,tx.getEdgeLabel("knows")));
@@ -639,7 +648,7 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
     //Merge above
 	public void neighborhoodTest() {
 		testCreateAndRetrieveComprehensive();
-		log.debug("Neighborhood:");
+		System.out.println("Neighborhood:");
 		TitanVertex n1 = tx.getVertex("name", "Node1");
 		TitanQuery q = tx.query(n1.getID()).direction(Direction.OUT).types(tx.getEdgeLabel("connect"));
 		VertexList res = q.vertexIds();
@@ -671,9 +680,9 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
 			nodes[i] = tx.addVertex();
 			nodes[i].addProperty(name, names[i]);
 			nodes[i].addProperty(id, ids[i]);
-			if ((i+1)%100==0) log.debug("Added 100 nodes");
+			if ((i+1)%100==0) System.out.println("Added 100 nodes");
 		}
-		log.debug("Nodes created");
+		System.out.println("Nodes created");
 		int[] connectOff = {-100, -34, -4, 10, 20};
 		int[] knowsOff = {-400, -18, 8, 232, 334};
 		for (int i=0;i<noNodes;i++) {
@@ -688,7 +697,7 @@ public abstract class TitanGraphTest extends TitanGraphTestCommon {
 				r.addProperty(weight, k * 1.5);
 				r.addProperty(name, i + "-" + k);
 			}
-			if (i%100==99) log.debug(".");
+			if (i%100==99) System.out.println(".");
 		}
 		
 		clopen();

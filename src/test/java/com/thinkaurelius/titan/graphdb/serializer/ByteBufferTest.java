@@ -1,23 +1,22 @@
 package com.thinkaurelius.titan.graphdb.serializer;
 
 
-import com.thinkaurelius.titan.diskstorage.util.ByteBufferUtil;
-import com.thinkaurelius.titan.testutil.RandomGenerator;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.thinkaurelius.titan.diskstorage.util.ByteBufferUtil;
+import com.thinkaurelius.titan.testutil.RandomGenerator;
 
 public class ByteBufferTest {
 
-	private Logger log = LoggerFactory.getLogger(ByteBufferTest.class);
-	
 	@Before
 	public void setUp() throws Exception {
 	}
@@ -46,7 +45,7 @@ public class ByteBufferTest {
 			ByteBuffer constant = ByteBufferUtil.getLongByteBuffer(id);
 			for (int off=-width;off<=width;off+=5) {
 				ByteBuffer compare = ByteBufferUtil.getLongByteBuffer(id+off);
-				//log.debug("+{} vs +{}",id, id+off);
+				//System.out.println("+" + id + " vs +" + (id+off));
 				if (off>0) {
 					assertTrue(ByteBufferUtil.isSmallerThan(constant, compare));
 				} else {

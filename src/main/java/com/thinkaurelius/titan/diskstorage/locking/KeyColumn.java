@@ -2,7 +2,7 @@ package com.thinkaurelius.titan.diskstorage.locking;
 
 import java.nio.ByteBuffer;
 
-import org.apache.cassandra.utils.ByteBufferUtil;
+import com.thinkaurelius.titan.diskstorage.util.ByteBufferUtil;
 
 /**
  * This is just a (key, column) pair.

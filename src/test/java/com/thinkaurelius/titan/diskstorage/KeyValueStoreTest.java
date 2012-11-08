@@ -1,13 +1,11 @@
 package com.thinkaurelius.titan.diskstorage;
 
 
-import com.thinkaurelius.titan.diskstorage.util.*;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -15,11 +13,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.thinkaurelius.titan.diskstorage.util.KeyValueEntry;
+import com.thinkaurelius.titan.diskstorage.util.KeyValueStorageManager;
+import com.thinkaurelius.titan.diskstorage.util.OrderedKeyValueStore;
+import com.thinkaurelius.titan.diskstorage.util.RecordIterator;
+import com.thinkaurelius.titan.diskstorage.util.ScanKeyValueStore;
 
 public abstract class KeyValueStoreTest {
-
-	private Logger log = LoggerFactory.getLogger(KeyValueStoreTest.class);
 
 	private int numKeys = 2000;
     private String storeName = "testStore1";
@@ -121,10 +126,10 @@ public abstract class KeyValueStoreTest {
 	@Test
 	public void storeAndRetrieve() throws StorageException {
 		String[] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 
-		log.debug("Checking values...");
+		System.out.println("Checking values...");
 		checkValueExistence(values);
 		checkValues(values);
 	}
@@ -132,10 +137,10 @@ public abstract class KeyValueStoreTest {
 	@Test
 	public void storeAndRetrieveWithClosing() throws StorageException {
 		String[] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		clopen();
-		log.debug("Checking values...");
+		System.out.println("Checking values...");
 		checkValueExistence(values);
 		checkValues(values);
 	}
@@ -143,11 +148,11 @@ public abstract class KeyValueStoreTest {
 	@Test
 	public void deletionTest1() throws StorageException {
 		String[] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		clopen();
 		Set<Integer> deleted = deleteValues(0,10);
-		log.debug("Checking values...");
+		System.out.println("Checking values...");
 		checkValueExistence(values,deleted);
 		checkValues(values,deleted);
 	}
@@ -155,11 +160,11 @@ public abstract class KeyValueStoreTest {
 	@Test
 	public void deletionTest2() throws StorageException {
 		String[] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		Set<Integer> deleted = deleteValues(0,10);
 		clopen();
-		log.debug("Checking values...");
+		System.out.println("Checking values...");
 		checkValueExistence(values,deleted);
 		checkValues(values,deleted);
 	}
@@ -211,7 +216,7 @@ public abstract class KeyValueStoreTest {
 	@Test
 	public void intervalTest1() throws StorageException {
 		String[] values = generateValues();
-		log.debug("Loading values...");
+		System.out.println("Loading values...");
 		loadValues(values);
 		Set<Integer> deleted = deleteValues(0,10);
 		clopen();

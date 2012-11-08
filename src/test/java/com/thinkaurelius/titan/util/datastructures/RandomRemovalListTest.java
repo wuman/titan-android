@@ -1,19 +1,14 @@
 package com.thinkaurelius.titan.util.datastructures;
 
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Iterator;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 
 public class RandomRemovalListTest {
 	
-	private static final Logger log =
-		LoggerFactory.getLogger(RandomRemovalListTest.class);
-
 	@Test
 	public void test1() {
 		int max = 1000000;
@@ -28,7 +23,7 @@ public class RandomRemovalListTest {
 			sum += list.getRandom();
 		}
 		double avg = sum/(double)subset;
-		log.debug("Average: {}", avg);
+		System.out.println("Average: " + avg);
 		assertEquals(avg,(double)max/2,max/100);
 		
 	}
@@ -79,7 +74,7 @@ public class RandomRemovalListTest {
 			long before = System.currentTimeMillis();
 			int compact = runIndividual();
 			long after = System.currentTimeMillis();
-			log.debug(i+" : "+((after-before)) + " : " + compact);
+			System.out.println(i+" : "+((after-before)) + " : " + compact);
 			System.gc();
 		}
 	}

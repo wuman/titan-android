@@ -1,5 +1,20 @@
 package com.thinkaurelius.titan.graphdb.configuration;
 
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.configuration.BaseConfiguration;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+
 import com.google.common.base.Preconditions;
 import com.thinkaurelius.titan.core.AttributeSerializer;
 import com.thinkaurelius.titan.core.DefaultTypeMaker;
@@ -7,29 +22,14 @@ import com.thinkaurelius.titan.core.TitanException;
 import com.thinkaurelius.titan.diskstorage.OrderedKeyColumnValueStore;
 import com.thinkaurelius.titan.diskstorage.StorageException;
 import com.thinkaurelius.titan.diskstorage.StorageManager;
-import com.thinkaurelius.titan.diskstorage.astyanax.AstyanaxStorageManager;
 import com.thinkaurelius.titan.diskstorage.berkeleydb.je.BerkeleyJEStorageAdapter;
-import com.thinkaurelius.titan.diskstorage.cassandra.CassandraEmbeddedStorageManager;
-import com.thinkaurelius.titan.diskstorage.cassandra.CassandraThriftStorageManager;
-import com.thinkaurelius.titan.diskstorage.hbase.HBaseStorageManager;
 import com.thinkaurelius.titan.graphdb.blueprints.BlueprintsDefaultTypeMaker;
-import com.thinkaurelius.titan.graphdb.database.idassigner.VertexIDAssigner;
 import com.thinkaurelius.titan.graphdb.database.idassigner.SimpleVertexIDAssigner;
+import com.thinkaurelius.titan.graphdb.database.idassigner.VertexIDAssigner;
 import com.thinkaurelius.titan.graphdb.database.serialize.Serializer;
 import com.thinkaurelius.titan.graphdb.database.serialize.kryo.KryoSerializer;
 import com.thinkaurelius.titan.graphdb.idmanagement.IDManager;
 import com.thinkaurelius.titan.graphdb.types.DisableDefaultTypeMaker;
-import org.apache.commons.configuration.BaseConfiguration;
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 
 /**
  * Provides functionality to configure a {@link com.thinkaurelius.titan.core.TitanGraph} INSTANCE.
@@ -50,17 +50,11 @@ import java.util.*;
  */
 public class GraphDatabaseConfiguration {
 	
-	private static final Logger log =
-		LoggerFactory.getLogger(GraphDatabaseConfiguration.class);
+	private static final String LOG_TAG = GraphDatabaseConfiguration.class.getSimpleName();
 
     private static final Map<String,Class<? extends StorageManager>> preregisteredStorageManagers = new HashMap<String,Class<? extends StorageManager>>() {{
         put("local", BerkeleyJEStorageAdapter.class);
         put("berkeleyje", BerkeleyJEStorageAdapter.class);
-        put("cassandra", AstyanaxStorageManager.class);
-        put("cassandrathrift", CassandraThriftStorageManager.class);
-        put("astyanax", AstyanaxStorageManager.class);
-        put("hbase", HBaseStorageManager.class);
-        put("embeddedcassandra", CassandraEmbeddedStorageManager.class);
     }};
 
     private static final Map<String,DefaultTypeMaker> preregisteredAutoType = new HashMap<String,DefaultTypeMaker>() {{

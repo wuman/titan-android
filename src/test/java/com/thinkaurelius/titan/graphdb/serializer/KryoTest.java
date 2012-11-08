@@ -1,23 +1,20 @@
 package com.thinkaurelius.titan.graphdb.serializer;
 
 
-import com.esotericsoftware.kryo.Kryo;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.esotericsoftware.kryo.Kryo;
 
 public class KryoTest {
 
-	private static final Logger log = LoggerFactory.getLogger(KryoTest.class);
-	
 	TestClass a = new TestClass(50,100,new short[]{1,2,3,4}, TestEnum.One);
 	String[] b = {"Hello", "John"}; 
 	
@@ -49,8 +46,8 @@ public class KryoTest {
 		serial.writeObject(b2,b);
 		b2.flip();
 		if (printStats) {
-			log.debug(SerializerTest.bufferStats(b1));
-			log.debug(SerializerTest.bufferStats(b2));
+			System.out.println(SerializerTest.bufferStats(b1));
+			System.out.println(SerializerTest.bufferStats(b2));
 		}
 		
 		Kryo serial2 = new Kryo();
@@ -65,7 +62,7 @@ public class KryoTest {
 		ByteBuffer b3 = ByteBuffer.allocate(100);
 		serial3.writeObjectData(b3, a);
 		b3.flip();
-		if (printStats) log.debug(SerializerTest.bufferStats(b3));
+		if (printStats) System.out.println(SerializerTest.bufferStats(b3));
 	}
 
     enum E {

@@ -1,22 +1,19 @@
 package com.thinkaurelius.titan.diskstorage;
 
+import static org.junit.Assert.assertTrue;
+
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+
 import com.thinkaurelius.titan.diskstorage.util.ByteBufferUtil;
 import com.thinkaurelius.titan.diskstorage.util.RecordIterator;
 import com.thinkaurelius.titan.graphdb.database.serialize.DataOutput;
 import com.thinkaurelius.titan.graphdb.database.serialize.Serializer;
 import com.thinkaurelius.titan.graphdb.database.serialize.kryo.KryoSerializer;
 import com.thinkaurelius.titan.testutil.RandomGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-
-import static org.junit.Assert.assertTrue;
 
 public class KeyValueStoreUtil {
 
-	private static final Logger log = LoggerFactory.getLogger(KeyValueStoreUtil.class);
 	public static final Serializer serial = new KryoSerializer(true);
 	public static final long idOffset = 1000;
 	
@@ -39,7 +36,7 @@ public class KeyValueStoreUtil {
 	}
 	
 	public static void print(String[] data) {
-		log.debug(Arrays.toString(data));
+		System.out.println(Arrays.toString(data));
 	}
 	
 	public static void print(String[][] data) {

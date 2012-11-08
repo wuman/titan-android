@@ -1,13 +1,20 @@
 package com.thinkaurelius.titan.graphdb.transaction;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import cern.colt.list.AbstractLongList;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.thinkaurelius.titan.core.TitanException;
-import com.thinkaurelius.titan.core.TitanVertex;
 import com.thinkaurelius.titan.core.TitanKey;
+import com.thinkaurelius.titan.core.TitanVertex;
 import com.thinkaurelius.titan.diskstorage.StorageException;
 import com.thinkaurelius.titan.diskstorage.TransactionHandle;
 import com.thinkaurelius.titan.graphdb.database.InternalTitanGraph;
@@ -18,20 +25,11 @@ import com.thinkaurelius.titan.graphdb.relations.factory.StandardPersistedRelati
 import com.thinkaurelius.titan.graphdb.types.manager.TypeManager;
 import com.thinkaurelius.titan.graphdb.vertices.InternalTitanVertex;
 import com.thinkaurelius.titan.graphdb.vertices.factory.StandardVertexFactories;
-import com.thinkaurelius.titan.util.datastructures.IterablesUtil;
 import com.tinkerpop.blueprints.Vertex;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class StandardPersistTitanTx extends AbstractTitanTx {
 
-	private static final Logger log = LoggerFactory.getLogger(StandardPersistTitanTx.class);
+	private static final String LOG_TAG = StandardPersistTitanTx.class.getSimpleName();
 
 	private final TransactionHandle txHandle;
 		

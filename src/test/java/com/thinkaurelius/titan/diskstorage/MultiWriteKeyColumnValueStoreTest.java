@@ -6,27 +6,21 @@ import static org.junit.Assert.assertNull;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.thinkaurelius.titan.diskstorage.writeaggregation.MultiWriteKeyColumnValueStore;
 import com.thinkaurelius.titan.diskstorage.writeaggregation.Mutation;
 
 public abstract class MultiWriteKeyColumnValueStoreTest {
 	
-	private Logger log = LoggerFactory.getLogger(MultiWriteKeyColumnValueStoreTest.class);
-
 	int numKeys = 500;
 	int numColumns = 50;
 
@@ -155,7 +149,8 @@ public abstract class MultiWriteKeyColumnValueStoreTest {
     		}
     	}
     	
-    	log.debug("Checked existence of {} key-column-value triples on round {}", checked, round);
+        System.out.println("Checked existence of " + checked
+                + " key-column-value triples on round " + round);
     	
     	return checked;
     }
@@ -187,7 +182,9 @@ public abstract class MultiWriteKeyColumnValueStoreTest {
     		}
     	}
     	
-    	log.debug("Checked absence of {} key-column-value deletions on round {} (skipped {})", new Object[] { checked, round, skipped });
+        System.out.println("Checked absence of " + checked
+                + " key-column-value deletions on round " + round
+                + " (skipped " + skipped + ")");
     	
     	return checked;
     }

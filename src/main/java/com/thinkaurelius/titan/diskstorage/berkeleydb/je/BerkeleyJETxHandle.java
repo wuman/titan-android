@@ -1,6 +1,8 @@
 package com.thinkaurelius.titan.diskstorage.berkeleydb.je;
 
-import com.google.common.base.Optional;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.google.common.collect.Lists;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Transaction;
@@ -8,16 +10,9 @@ import com.thinkaurelius.titan.diskstorage.PermanentStorageException;
 import com.thinkaurelius.titan.diskstorage.StorageException;
 import com.thinkaurelius.titan.diskstorage.TransactionHandle;
 import com.thinkaurelius.titan.diskstorage.util.RecordIterator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class BerkeleyJETxHandle implements TransactionHandle {
 
-	private static final Logger log = LoggerFactory.getLogger(BerkeleyJETxHandle.class);
-	
 	private Transaction tx;
 	private final boolean isReadOnly;
     private Set<RecordIterator> openIterators = null;

@@ -1,18 +1,24 @@
 package com.thinkaurelius.titan.blueprints;
 
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.google.common.collect.ImmutableSet;
 import com.thinkaurelius.titan.StorageSetup;
 import com.thinkaurelius.titan.core.TitanFactory;
 import com.thinkaurelius.titan.core.TitanGraph;
-import com.tinkerpop.blueprints.*;
+import com.tinkerpop.blueprints.EdgeTestSuite;
+import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.blueprints.GraphTestSuite;
+import com.tinkerpop.blueprints.KeyIndexableGraphTestSuite;
+import com.tinkerpop.blueprints.QueryTestSuite;
+import com.tinkerpop.blueprints.TestSuite;
+import com.tinkerpop.blueprints.VertexTestSuite;
 import com.tinkerpop.blueprints.impls.GraphTest;
 import com.tinkerpop.blueprints.util.io.gml.GMLReaderTestSuite;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLReaderTestSuite;
 import com.tinkerpop.blueprints.util.io.graphson.GraphSONReaderTestSuite;
-
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * (c) Matthias Broecheler (me@matthiasb.com)
@@ -25,7 +31,7 @@ public class InMemoryBlueprintsTest extends GraphTest {
         doTestSuite(new TitanBenchmarkSuite(this));
         printTestPerformance("TitanBenchmarkTestSuite", this.stopWatch());
     }*/
-
+    
     public void testVertexTestSuite() throws Exception {
         this.stopWatch();
         doTestSuite(new VertexTestSuite(this));

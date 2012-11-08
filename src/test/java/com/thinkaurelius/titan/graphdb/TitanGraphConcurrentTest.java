@@ -1,28 +1,33 @@
 package com.thinkaurelius.titan.graphdb;
 
-import com.google.common.collect.Iterables;
-import com.thinkaurelius.titan.core.*;
-import com.thinkaurelius.titan.testutil.RandomGenerator;
-import com.tinkerpop.blueprints.Direction;
+import static org.junit.Assert.assertEquals;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.configuration.Configuration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.*;
-
-import static org.junit.Assert.assertEquals;
+import com.google.common.collect.Iterables;
+import com.thinkaurelius.titan.core.TitanEdge;
+import com.thinkaurelius.titan.core.TitanKey;
+import com.thinkaurelius.titan.core.TitanLabel;
+import com.thinkaurelius.titan.core.TitanTransaction;
+import com.thinkaurelius.titan.core.TitanVertex;
+import com.thinkaurelius.titan.testutil.RandomGenerator;
+import com.tinkerpop.blueprints.Direction;
 
 public abstract class TitanGraphConcurrentTest extends TitanGraphTestCommon {
 	
 	// TODO guarantee that any exception in an executor thread generates an exception in the unit test that submitted the thread; due to open bugs on the jdk, this is not as simple as overriding ThreadPoolExecutor.afterExecute()
 	
 	// Parallelism settings
-	private static final int CORE_COUNT = ManagementFactory.
-		getOperatingSystemMXBean().getAvailableProcessors();
+	private static final int CORE_COUNT = Runtime.getRuntime().availableProcessors();
 	private static final int THREAD_COUNT = CORE_COUNT * 4;
 	private static final int TASK_COUNT = THREAD_COUNT * 512; 
 	
@@ -30,9 +35,6 @@ public abstract class TitanGraphConcurrentTest extends TitanGraphTestCommon {
 	private static final int NODE_COUNT = 1000;
 	private static final int EDGE_COUNT = 5;
 	private static final int REL_COUNT = 5;
-	
-	private static final Logger log =
-		LoggerFactory.getLogger(TitanGraphConcurrentTest.class);
 	
 	private ExecutorService executor;
 	
@@ -75,10 +77,10 @@ public abstract class TitanGraphConcurrentTest extends TitanGraphTestCommon {
 	public void tearDown() throws Exception {
 		executor.shutdown();
 		if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
-			log.error("Abnormal executor shutdown");
+			System.out.println("Abnormal executor shutdown");
 			Thread.dumpStack();
 		} else {
-			log.debug("Test executor completed normal shutdown");
+			System.out.println("Test executor completed normal shutdown");
 		}
 		super.tearDown();
 	}

@@ -1,18 +1,18 @@
 package com.thinkaurelius.titan.diskstorage.util;
 
-import java.lang.management.ManagementFactory;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
-import com.thinkaurelius.titan.core.TitanConfigurationException;
-import com.thinkaurelius.titan.core.TitanException;
-import com.thinkaurelius.titan.diskstorage.StorageException;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.os.Build;
+import android.os.Process;
+
+import com.thinkaurelius.titan.core.TitanConfigurationException;
 import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
 
 /**
@@ -81,8 +81,7 @@ public class ConfigHelper {
 				endBytes[1] = (byte)(s & 0x000000FF); 
 			} else {
 				
-				endBytes =
-						ManagementFactory.getRuntimeMXBean().getName().getBytes();
+				endBytes = (Process.myPid() + "@" + Build.DEVICE).getBytes();
 			}
 			
 			byte[] addrBytes;

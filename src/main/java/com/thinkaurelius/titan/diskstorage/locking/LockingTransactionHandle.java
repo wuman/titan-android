@@ -7,11 +7,16 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-import com.thinkaurelius.titan.diskstorage.*;
-import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.thinkaurelius.titan.diskstorage.Entry;
+import com.thinkaurelius.titan.diskstorage.LockConfig;
+import com.thinkaurelius.titan.diskstorage.PermanentLockingException;
+import com.thinkaurelius.titan.diskstorage.StorageException;
+import com.thinkaurelius.titan.diskstorage.TemporaryLockingException;
+import com.thinkaurelius.titan.diskstorage.TransactionHandle;
+import com.thinkaurelius.titan.diskstorage.util.Hex;
 import com.thinkaurelius.titan.diskstorage.util.TimestampProvider;
 
 /**

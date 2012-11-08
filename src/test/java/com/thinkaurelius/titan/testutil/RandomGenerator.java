@@ -1,16 +1,11 @@
 package com.thinkaurelius.titan.testutil;
 
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
 
 public class RandomGenerator {
 
-	private static final Logger log =
-		LoggerFactory.getLogger(RandomGenerator.class);
-	
 	private final static int standardLower = 7;
 	private final static int standardUpper = 21;
 	
@@ -86,7 +81,7 @@ public class RandomGenerator {
 		}
 		double avg = sum*1.0/trials;
 		double error = (5/Math.pow(trials, 0.3));
-		//log.debug(error);
+		//System.out.println(error);
 		assertTrue(Math.abs(avg-50.5)<error);
 	}
 	
@@ -99,14 +94,14 @@ public class RandomGenerator {
 		}
 		double avg = sum*1.0/trials;
 		double error = (5/Math.pow(trials, 0.3));
-		//log.debug(error);
+		//System.out.println(error);
 		assertTrue(Math.abs(avg-50.5)<error);
 	}
 	
 	@Test
 	public void testRandomString() {
 		for (int i=0;i<20;i++)
-			log.debug(randomString(5,20));
+			System.out.println(randomString(5,20));
 	}
 	
 }

@@ -7,7 +7,6 @@
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -16,51 +15,135 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">Titan-Android</h1>
-        <p class="header">Android Port of Titan: A Highly Scalable, Distributed Graph Database</p>
+        <h1>Titan-Android</h1>
+        <p>Android Port of Titan: A Highly Scalable, Distributed Graph Database</p>
+
+        <p class="view"><a href="https://github.com/wuman/titan-android">View the Project on GitHub <small>wuman/titan-android</small></a></p>
+
 
         <ul>
-          <li class="download"><a class="buttons" href="https://github.com/wuman/titan-android/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/wuman/titan-android/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/wuman/titan-android">View On GitHub</a></li>
+          <li><a href="https://github.com/wuman/titan-android/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/wuman/titan-android/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/wuman/titan-android">View On <strong>GitHub</strong></a></li>
         </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/wuman">wuman</a></p>
-
-
       </header>
       <section>
-        <p>!<a href="https://github.com/thinkaurelius/titan/raw/master/doc/images/titan-logo.png">https://github.com/thinkaurelius/titan/raw/master/doc/images/titan-logo.png</a>!</p>
+        <h1>TITAN-ANDROID</h1>
 
-<p>Titan is a highly scalable "graph database":<a href="http://en.wikipedia.org/wiki/Graph_database">http://en.wikipedia.org/wiki/Graph_database</a> optimized for storing and querying large graphs with billions of vertices and edges distributed across a multi-machine cluster. Titan is a transactional database that can support "thousands of concurrent users":<a href="http://thinkaurelius.com/2012/08/06/titan-provides-real-time-big-graph-data/">http://thinkaurelius.com/2012/08/06/titan-provides-real-time-big-graph-data/</a>.</p>
+<p><img src="https://github.com/wuman/titan-android/raw/master/doc/images/titan-logo.png" alt="Feature Image"></p>
 
-<p>h2. Features</p>
+<p>Titan-Android is a port/fork of <a href="https://github.com/thinkaurelius/titan">Titan</a>
+for the Android platform. It is meant to be a light-weight implementation of a
+graph database on mobile devices. The port removes HBase and Cassandra support
+as their usage make little sense on a mobile device (convince me otherwise!).
+Gremlin is only supported via the Java interface as I have not been able to 
+port groovy successfully. Nevertheless, Titan-Android supports local storage 
+backend via BerkeleyDB and supports the <a href="http://tinkerpop.com/">Tinkerpop</a> 
+stack natively.</p>
+
+<h2>Including in Your Project</h2>
+
+<p>There are two ways to include the library in your projects:</p>
+
+<ol>
+<li>You can download the released jar file in the <a href="https://github.com/wuman/titan-android/downloads">Downloads section</a>.</li>
+<li>
+<p>If you use Maven to build your project you can simply add a dependency to 
+the desired component of the library.</p>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.wu-man&lt;/groupId&gt;
+    &lt;artifactId&gt;titan-android&lt;/artifactId&gt;
+    &lt;version&gt;0.1.0.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</li>
+</ol><h2>What is Titan</h2>
+
+<p>Titan is a highly scalable <a href="http://en.wikipedia.org/wiki/Graph_database">graph database</a> 
+optimized for storing and querying large graphs with billions of vertices and 
+edges distributed across a multi-machine cluster. Titan is a transactional 
+database that can support 
+<a href="http://thinkaurelius.com/2012/08/06/titan-provides-real-time-big-graph-data/">thousands of concurrent users</a>.</p>
+
+<p>Titan has the following features:</p>
 
 <ul>
 <li>Elastic and linear scalability for a growing data and user base.</li>
 <li>Data distribution and replication for performance and fault tolerance.</li>
-<li>Support for "ACID":<a href="http://en.wikipedia.org/wiki/ACID">http://en.wikipedia.org/wiki/ACID</a> and "eventual consistency":<a href="http://en.wikipedia.org/wiki/Eventual_consistency">http://en.wikipedia.org/wiki/Eventual_consistency</a>.</li>
-<li>Support for various "storage backend":<a href="https://github.com/thinkaurelius/titan/wiki/Storage-Backend-Overview:">https://github.com/thinkaurelius/titan/wiki/Storage-Backend-Overview:</a>
-** "Apache Cassandra":<a href="http://cassandra.apache.org/">http://cassandra.apache.org/</a>
-** "Apache HBase":<a href="http://hbase.apache.org/">http://hbase.apache.org/</a>
-** "Oracle BerkeleyDB":<a href="http://www.oracle.com/technetwork/database/berkeleydb/overview/index-093405.html">http://www.oracle.com/technetwork/database/berkeleydb/overview/index-093405.html</a>
-</li>
-<li>Native integration with the "TinkerPop":<a href="http://www.tinkerpop.com">http://www.tinkerpop.com</a> graph stack:
-** "Gremlin":<a href="http://gremlin.tinkerpop.com">http://gremlin.tinkerpop.com</a> graph query language
-** "Frames":<a href="http://frames.tinkerpop.com">http://frames.tinkerpop.com</a> object-to-graph mapper
-** "Rexster":<a href="http://rexster.tinkerpop.com">http://rexster.tinkerpop.com</a> REST graph server
-** "Blueprints":<a href="http://blueprints.tinkerpop.com">http://blueprints.tinkerpop.com</a> standard graph API</li>
-<li>Open source with the liberal "Apache 2 license":<a href="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</a>.</li>
-</ul><p>h2. Getting Started</p>
+<li>Support for <a href="http://en.wikipedia.org/wiki/ACID">ACID</a> and 
+<a href="http://en.wikipedia.org/wiki/Eventual_consistency">eventual consistency</a>.</li>
+<li>Support for various <a href="https://github.com/thinkaurelius/titan/wiki/Storage-Backend-Overview">storage backend</a>:
 
-<p>Read the comprehensive "Titan documentation":<a href="https://github.com/thinkaurelius/titan/wiki">https://github.com/thinkaurelius/titan/wiki</a> and join the "mailing list":<a href="https://groups.google.com/forum/#!forum/aureliusgraphs">https://groups.google.com/forum/#!forum/aureliusgraphs</a>.</p>
+<ul>
+<li><a href="http://cassandra.apache.org">Apache Cassandra</a></li>
+<li><a href="http://hbase.apache.org">Apache HBase</a></li>
+<li><a href="http://www.oracle.com/technetwork/database/berkeleydb/overview/index-093405.html">Oracle BerkeleyDB</a></li>
+</ul>
+</li>
+<li>Native integration with the <a href="http://www.tinkerpop.com">TinkerPop</a> graph stack:
+
+<ul>
+<li>
+<a href="http://gremlin.tinkerpop.com">Gremlin</a> graph query language</li>
+<li>
+<a href="http://frames.tinkerpop.com">Frames</a> object-to-graph mapper</li>
+<li>
+<a href="http://rexster.tinkerpop.com">Rexster</a> REST graph server</li>
+<li>
+<a href="http://blueprints.tinkerpop.com">Blueprints</a> standard graph API</li>
+</ul>
+</li>
+</ul><h2>Contribute</h2>
+
+<p>If you would like to contribute code you can do so through GitHub by forking 
+the repository and sending a pull request.</p>
+
+<h2>Developed By</h2>
+
+<ul>
+<li>Android porting contributor
+
+<ul>
+<li>David Wu - <a href="mailto:david@wu-man.com">david@wu-man.com</a> - <a href="http://blog.wu-man.com">http://blog.wu-man.com</a>
+</li>
+</ul>
+</li>
+<li>Original contributors to Titan
+
+<ul>
+<li>Marko A. Rodriguez - <a href="mailto:marko@markorodriguez.com">marko@markorodriguez.com</a> - <a href="http://markorodriguez.com">http://markorodriguez.com</a>
+</li>
+<li>Matthias Broecheler - <a href="mailto:me@matthiasb.com">me@matthiasb.com</a> - <a href="http://matthiasb.com">http://matthiasb.com</a>
+</li>
+<li>Daniel LaRocque - <a href="mailto:dalaro@hopcount.org">dalaro@hopcount.org</a> </li>
+</ul>
+</li>
+</ul><h2>License</h2>
+
+<pre><code>Copyright 2012, David Wu
+Copyright 2012 Aurelius LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
       </section>
       <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+        <p>This project is maintained by <a href="https://github.com/wuman">wuman</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>

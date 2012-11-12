@@ -1,7 +1,7 @@
 TITAN-ANDROID
 =============
 
-![Feature Image](https://github.com/wuman/titan-android/raw/master/doc/images/titan-logo.png)
+![Feature Image](https://github.com/wuman/titan-android/raw/master/doc/images/titan-android-logo.png)
 
 Titan-Android is a port/fork of [Titan](https://github.com/thinkaurelius/titan)
 for the Android platform. It is meant to be a light-weight implementation of a
